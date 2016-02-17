@@ -7,7 +7,7 @@ export var canvas = d3.select("body").append("canvas")
 
 canvas.node().getContext("webgl");
 
-export var renderer = new THREE.WebGLRenderer({canvas: canvas.node(), antialias: true});
+export var renderer = new THREE.WebGLRenderer({canvas: canvas.node()});
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -28,3 +28,6 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+
+
