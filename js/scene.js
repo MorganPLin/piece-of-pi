@@ -7,7 +7,7 @@ export var canvas = d3.select("body").append("canvas")
 
 canvas.node().getContext("webgl");
 
-export var renderer = new THREE.WebGLRenderer({canvas: canvas.node()});
+export var renderer = new THREE.WebGLRenderer({canvas: canvas.node(),alpha:false});
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
