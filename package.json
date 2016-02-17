@@ -1,0 +1,22 @@
+{
+  "name": "piece-of-pie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^3.5.5",
+    "three": "^0.71.0"
+  },
+  "devDependencies": {
+    "babel": "^5.4.3",
+    "babel-core": "^5.4.3",
+    "es6-module-loader": "^0.16.6",
+    "systemjs": "^0.16.11",
+    "topojson": "^1.6.24"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

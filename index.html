@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>PIECE OF PI</title>
+  <link rel="stylesheet" href="css/main.css
+  ">
+</head>
+<body>
+  <div id = "msg"></div>
+
+  <script src="node_modules/babel-core/browser-polyfill.js"></script>
+  <script src="node_modules/babel-core/browser.js"></script>
+  <script src="node_modules/es6-module-loader/dist/es6-module-loader.js"></script>
+  <script src="node_modules/systemjs/dist/system.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  <script src="node_modules/datamaps/dist/datamaps.world.min.js"></script>
+  <script src="https://d3js.org/queue.v1.min.js"></script>
+
+  <!-- <div id = "map"></div> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- D3 Library -->
+
+  <!-- JS to globe -->
+    <script>
+      System.config({
+        baseURL: '/',
+        map: {
+          d3: 'node_modules/d3/d3',
+          THREE: 'node_modules/three/three',
+          // helps convert the json data onto your map
+          topojson: 'topojson/topojson',
+          SubUnit: 'node_modules/src/index'
+        },
+        transpiler: 'babel'
+      });
+      System.import('js/main');
+  </script>
+</body>
+</html>
