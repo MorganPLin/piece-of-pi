@@ -8,10 +8,24 @@
   ">
 </head>
 <body>
-  <div id = "msg"></div>
-  <div id = "controlPanel">
-    <button id="stopRotation">STOP ROTATION</button>
+<!-- Left side news -->
+<div id = "paperNews">
+  <div id = "msg">COUNTRY</div>
+  <!-- <input type=text placeholder="Search By Country"></input> -->
+</div>
+
+<!-- control panel and Youtube -->
+<div id = "rightSide">
+  <div id = "TV">
+    <iframe src="https://www.youtube.com/watch?v=ubJz2Ma_IEU" width="425" height="349" framborder="0"allowfullscreen class="youtube-player" type="text/html"></iframe>
   </div>
+
+  <div id = "controlPanel">
+      <div id = "lat">0</div>
+      <div id = "long">0</div>
+      <button id="stopRotation">STOP ROTATION</button>
+  </div>
+</div>
 
   <script src="node_modules/babel-core/browser-polyfill.js"></script>
   <script src="node_modules/babel-core/browser.js"></script>

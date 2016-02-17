@@ -1,18 +1,22 @@
 body {
-  background-color: black;
+/*  background-color: black;*/
+background-image: url('https://i.ytimg.com/vi/JquobII5VjA/maxresdefault.jpg');
+background-size: cover;
 }
 
 /*display country news*/
 #msg {
   color: red;
   border: 1px solid red;
-  width: 200px;
-  height: 100px;
+  width: 25%;
+  height: 90%;
   font-size: 30px;
   position: absolute;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 5px;
+  margin-left: 5%;
+  margin-top: 5%;
 }
 
 #controlPanel {
@@ -20,7 +24,53 @@ body {
   top: 200px;
 }
 
+input {
+  top: 30px;
+}
+
 #stopRotation {
   height: 100px;
   width: 100px;
+}
+
+iframe{
+  margin: 0 auto;
+  top: 10%;
+  left: 5%;
+  height: 80%;
+  width: 80%;
+}
+
+#rightSide {
+/*  border: 1px solid white;*/
+  position: absolute;
+  margin-top: 5%;
+  right: 4%;
+  height: 85%;
+  width: 27%;
+}
+
+#TV {
+  border: 1px solid white;
+  position: absolute;
+  margin-top: 5%;
+  right: 4%;
+  height: 35%;
+  width: 80%;
+}
+
+#controlPanel {
+  border: 3px solid rgba(255,255,255,0.2);
+  box-shadow: 0 0 0.1em rgba(255,255,255,0.2),
+               0 0 0.2em rgba(255,255,255,0.2),
+               0 0 0.4em rgba(255,255,255,0.4),
+               0 0 0.6em #000,
+               0 0 0.8em #000,
+               0 0 1.0em #000,
+               0 0 1.2em #000;
+  right: 4%;
+  height: 100px;
+  width: 80%;
+  color: blue;
+  display: flex;
 }

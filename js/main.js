@@ -30,7 +30,8 @@ d3.json('data/world.json', function (err, data) {
   let blueMaterial = new THREE.MeshPhongMaterial({color: '#2B3B59', transparent: true});
   //SphereGeometry takes on three arguments-(radius, )
   // number of vertices. Higher = better mouse accuracy
-  let sphere = new THREE.SphereGeometry(200, 200, 200);
+  //base sphere
+  let sphere = new THREE.SphereGeometry(160, 200, 200);
 
   let baseGlobe = new THREE.Mesh(sphere, blueMaterial);
   console.log(blueMaterial)
@@ -107,6 +108,7 @@ d3.json('data/world.json', function (err, data) {
       map = textureCache(country.code, '#CDC290');
       material = new THREE.MeshPhongMaterial({map: map, transparent: true});
       if (!overlay) {
+        // push the country above the atmosphere
         overlay = new THREE.Mesh(new THREE.SphereGeometry(201, 40, 40), material);
         overlay.rotation.y = Math.PI;
         root.add(overlay);
