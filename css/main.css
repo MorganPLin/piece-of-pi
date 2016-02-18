@@ -1,7 +1,7 @@
 body {
 /*  background-color: black;*/
-background-image: url('https://i.ytimg.com/vi/JquobII5VjA/maxresdefault.jpg');
-background-size: cover;
+  background-image: url('https://i.ytimg.com/vi/JquobII5VjA/maxresdefault.jpg');
+  background-size: cover;
 }
 
 /*display country news*/
@@ -42,7 +42,7 @@ iframe{
 }
 
 #rightSide {
-/*  border: 1px solid white;*/
+ /* border: 1px solid white;*/
   position: absolute;
   margin-top: 5%;
   right: 4%;
@@ -52,14 +52,16 @@ iframe{
 
 #TV {
   border: 1px solid white;
-  position: absolute;
+  position: relative;
+  margin: 0 auto;
   margin-top: 5%;
-  right: 4%;
   height: 35%;
   width: 80%;
 }
 
 #controlPanel {
+  position: relative;
+  margin: 0 auto;
   border: 3px solid rgba(255,255,255,0.2);
   box-shadow: 0 0 0.1em rgba(255,255,255,0.2),
                0 0 0.2em rgba(255,255,255,0.2),
@@ -68,9 +70,9 @@ iframe{
                0 0 0.8em #000,
                0 0 1.0em #000,
                0 0 1.2em #000;
-  right: 4%;
-  height: 100px;
+  height: 25%;
   width: 80%;
   color: blue;
+  margin-top: -46%;
   display: flex;
 }

@@ -27,7 +27,8 @@ export function getEventCenter(event, radius) {
   var lngRads = Math.atan2(point.z, point.x);
   var lat = (Math.PI / 2 - latRads) * (180 / Math.PI);
   var lng = (Math.PI - lngRads) * (180 / Math.PI);
-
+  console.log(lat)
+  console.log(lng-180)
   return [lat, lng - 180];
 }
 
