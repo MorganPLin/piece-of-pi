@@ -19,9 +19,12 @@ export function mapTexture(geojson, color) {
     .projection(projection)
     .context(context);
 
+  //grey lines
   context.strokeStyle = "#333";
-  context.lineWidth = 1;
-  context.fillStyle = color || "#CDB380";
+  context.lineWidth = 0.5;
+  //light grey fill
+  context.fillStyle = "#CDB380";
+  // context.fillStyle = color || "#CDB380";
 
   context.beginPath();
 
@@ -32,9 +35,6 @@ export function mapTexture(geojson, color) {
   }
 
   context.stroke();
-
-  // DEBUGGING - Really expensive, disable when done.
-  // console.log(canvas.node().toDataURL());
 
   texture = new THREE.Texture(canvas.node());
   texture.needsUpdate = true;

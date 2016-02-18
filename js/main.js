@@ -8,12 +8,48 @@ import THREE from 'THREE';
 import d3 from 'd3';
 
 // var light = new THREE.HemisphereLight('#ffffff', '#666666', 1.5);
-var light = new THREE.HemisphereLight(0xffffff, 1.5);
+var light = new THREE.HemisphereLight(0xffffff, 1);
 // light.position.set(5, 3, 5);
 light.position.set(0, 1000, 0);
 // scene.add(light);
 
 d3.json('data/world.json', function (err, data) {
+
+// geometry.colors.push
+// create the particle variables
+// var particleCount = 1000;
+
+
+// var color = new THREE.Color(255, 255, 255);
+
+// let particles = new THREE.Geometry(),
+//   pMaterial = new THREE.PointsMaterial({
+//     color:color,
+//     size: 2
+//     // vertexColors: THREE.VertexColors
+//   });
+
+// // now create the individual particles
+// for (var p = 0; p < particleCount; p++) {
+
+//   // create a particle with random
+//   // position values, -250 -> 250
+//   var pX = Math.random() * 500 - 250,
+//       pY = Math.random() * 500 - 250,
+//       pZ = Math.random() * 500 - 250,
+//       particle = new THREE.Vector3(pX, pY, pZ);
+//       particles.vertices.push(particle)
+//       // particles.colors.push(new THREE.Color(Math.random(),Math.random(),Math.random()))
+
+//   // add it to the geometry
+//   // particles.vertices.push(particle);
+// }
+
+// // create the particle system
+// var particleSystem = new THREE.Points( particles, pMaterial);
+
+// // add it to the scene
+// scene.add(particleSystem);
 
   d3.select("#loading").transition().duration(500)
     .style("opacity", 0).remove();
@@ -32,8 +68,9 @@ d3.json('data/world.json', function (err, data) {
   });
 
   // Base globe with blue "water"
-  let blueMaterial = new THREE.MeshPhongMaterial({color: '#2B3B59', transparent: true});
+  let blueMaterial = new THREE.MeshPhongMaterial({color: '#165F9C'});
 
+  // cooler blue: '#2B3B59'
   //SphereGeometry takes on three arguments-(radius, height, width)
   // number of vertices. Higher = better mouse accuracy
   //base sphere
@@ -52,6 +89,13 @@ d3.json('data/world.json', function (err, data) {
 
   //make sure sphere size is same as previous sphere, borrow measurments from above
   var baseMap = new THREE.Mesh(sphere, mapMaterial);
+  var clouds = new THREE.Mesh(
+    new THREE.SphereGeometry(161, 200, 200),
+    new THREE.MeshPhongMaterial({
+      map: THREE.ImageUtils.loadTexture('../assets/clouds.png'),
+      transparent: true
+    })
+  );
 
   baseMap.rotation.y = Math.PI;
 
@@ -62,6 +106,7 @@ d3.json('data/world.json', function (err, data) {
   root.add(baseGlobe);
   //layer the map on top of that
   root.add(baseMap);
+  baseMap.add(clouds);
   scene.add(root);
   scene.add(light)
 
@@ -125,7 +170,8 @@ d3.json('data/world.json', function (err, data) {
   setEvents(camera, [baseGlobe], 'click');
   setEvents(camera, [baseGlobe], 'mousemove');
   function animate() {
-
+    //get clouds to rotate
+    clouds.rotation.z += -0.0007
     requestAnimationFrame(animate);
     // baseMap.rotation.x += 0.1
     // add control panel for rotation, toggle rotation
@@ -134,7 +180,7 @@ d3.json('data/world.json', function (err, data) {
     });
   // toggle button
     if (rotate) {
-      root.rotation.y += 0.005
+      root.rotation.y += 0.002
       $('#stopRotation').html("STOP ROTATION")
     } else {
       $('#stopRotation').html("START ROTATION")
