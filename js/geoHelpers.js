@@ -19,16 +19,17 @@ export function selectPoint(event) {
 //this function resets the center of the map to the clicked country
 //it also returns latitude and longitude of your clicked point, converting this vector point to the projected latitude longitude on the map
 export function getEventCenter(event, radius) {
+// variable radius
   radius = radius || 200;
-
+// recall that the .call operation takes the (context, arg1, arg2)
   var point = selectPoint.call(this, event);
 
   var latRads = Math.acos(point.y / radius);
   var lngRads = Math.atan2(point.z, point.x);
   var lat = (Math.PI / 2 - latRads) * (180 / Math.PI);
   var lng = (Math.PI - lngRads) * (180 / Math.PI);
-  console.log(lat)
-  console.log(lng-180)
+  // console.log(lat)
+  // console.log(lng-180)
   return [lat, lng - 180];
 }
 

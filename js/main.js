@@ -3,82 +3,61 @@ import { setEvents } from './setEvents';
 import { convertToXYZ, getEventCenter, geodecoder } from './geoHelpers';
 import { mapTexture } from './mapTexture';
 import { getTween, memoize } from './utils';
+
+// grabbed from ES6 modules
 import topojson from 'topojson';
 import THREE from 'THREE';
 import d3 from 'd3';
 
 // var light = new THREE.HemisphereLight('#ffffff', '#666666', 1.5);
-var light = new THREE.HemisphereLight(0xffffff, 1);
+var light = new THREE.HemisphereLight(0xffffff, 1.5);
 // light.position.set(5, 3, 5);
 light.position.set(0, 1000, 0);
 // scene.add(light);
 
 d3.json('data/world.json', function (err, data) {
+  // function getApi() {
+  //   $.get('http://pokeapi.co/api/v1/pokedex/1/')
+  //   .then(function(data){
+  //     console.log(data)
+  //   })
+  // }
+  // getApi();
 
-// geometry.colors.push
-// create the particle variables
-// var particleCount = 1000;
-
-
-// var color = new THREE.Color(255, 255, 255);
-
-// let particles = new THREE.Geometry(),
-//   pMaterial = new THREE.PointsMaterial({
-//     color:color,
-//     size: 2
-//     // vertexColors: THREE.VertexColors
-//   });
-
-// // now create the individual particles
-// for (var p = 0; p < particleCount; p++) {
-
-//   // create a particle with random
-//   // position values, -250 -> 250
-//   var pX = Math.random() * 500 - 250,
-//       pY = Math.random() * 500 - 250,
-//       pZ = Math.random() * 500 - 250,
-//       particle = new THREE.Vector3(pX, pY, pZ);
-//       particles.vertices.push(particle)
-//       // particles.colors.push(new THREE.Color(Math.random(),Math.random(),Math.random()))
-
-//   // add it to the geometry
-//   // particles.vertices.push(particle);
-// }
-
-// // create the particle system
-// var particleSystem = new THREE.Points( particles, pMaterial);
-
-// // add it to the scene
-// scene.add(particleSystem);
-
-  d3.select("#loading").transition().duration(500)
-    .style("opacity", 0).remove();
+  // d3.select("#loading").transition().duration(500)
+  //   .style("opacity", 0).remove();
 
   var currentCountry;
-  var overlay;
+  var countryProjection;
 
   // Setup cache for country textures
+  //http://blog.workshape.io/making-a-spherical-globe-using-d3js/
   var countries = topojson.feature(data, data.objects.countries);
-  // console.log(topojson.feature)
+    // data at this point = an array of arcs
+    // console.log(data)
+
   var geo = geodecoder(countries.features);
 
+// memoize from utility file, shorten the memory to translate each country onto the globe
   var textureCache = memoize(function (countryID, color) {
     var country = geo.find(countryID);
     return mapTexture(country, color);
   });
 
-  // Base globe with blue "water"
+  // Base globe with water
   let blueMaterial = new THREE.MeshPhongMaterial({color: '#165F9C'});
 
   // cooler blue: '#2B3B59'
+
   //SphereGeometry takes on three arguments-(radius, height, width)
-  // number of vertices. Higher = better mouse accuracy
+  // number of vertices (2nd and 3rd arguments) Higher = better mouse accuracy
   //base sphere
   let sphere = new THREE.SphereGeometry(160, 200, 200);
 
   let baseGlobe = new THREE.Mesh(sphere, blueMaterial);
 
   //Math.PI=3.14....
+  // rotate by half a circle to reorient
   baseGlobe.rotation.y = Math.PI;
   baseGlobe.addEventListener('click', onGlobeClick);
   baseGlobe.addEventListener('mousemove', onGlobeMousemove);
@@ -93,23 +72,28 @@ d3.json('data/world.json', function (err, data) {
     new THREE.SphereGeometry(161, 200, 200),
     new THREE.MeshPhongMaterial({
       map: THREE.ImageUtils.loadTexture('../assets/clouds.png'),
-      transparent: true
+      transparent: true,
+      opacity: 0.7
     })
   );
 
+  // rotate by half a circle to reorient according to baseGlobe
   baseMap.rotation.y = Math.PI;
 
-  // create a container node and add the two meshes
+  // create a container node called roote and add the water layer and the baseMap layer
   var root = new THREE.Object3D();
   root.scale.set(2.5, 2.5, 2.5);
   //add the base globe
   root.add(baseGlobe);
   //layer the map on top of that
   root.add(baseMap);
+  // add cloud layer
   baseMap.add(clouds);
+  //add your globe to the scene
   scene.add(root);
   scene.add(light)
 
+// click to reorient, need to fix tweenPosition and tweenRotate, which rotates the globe to recenter on your mouse click
   function onGlobeClick(event) {
 
     // Get point of your click, convert to latitude/longitude
@@ -134,8 +118,9 @@ d3.json('data/world.json', function (err, data) {
 
     var tweenRot = getTween.call(camera, 'rotation', temp.rotation);
     d3.timer(tweenRot);
+
   }
-//hover function
+//hover function calls the overlay
   function onGlobeMousemove(event) {
     var map, material;
 
@@ -146,52 +131,55 @@ d3.json('data/world.json', function (err, data) {
     var country = geo.search(latlng[0], latlng[1]);
 
     if (country !== null && country.code !== currentCountry) {
+    // get the http request
 
       // Track the current country displayed
       currentCountry = country.code;
 
       // Update the html
-      d3.select("#msg").html(country.code);
+      d3.select("#countryName").html(country.code);
 
        // Overlay the selected country with yellow color
       map = textureCache(country.code, '#CDC290');
       material = new THREE.MeshPhongMaterial({map: map, transparent: true});
-      if (!overlay) {
+      if (!countryProjection) {
         // push the country above the atmosphere
-        overlay = new THREE.Mesh(new THREE.SphereGeometry(201, 40, 40), material);
-        overlay.rotation.y = Math.PI;
-        root.add(overlay);
+        countryProjection = new THREE.Mesh(new THREE.SphereGeometry(201, 40, 40), material);
+        countryProjection.rotation.y = Math.PI;
+        root.add(countryProjection);
       } else {
-        overlay.material = material;
+        countryProjection.material = material;
       }
     }
   }
 
   setEvents(camera, [baseGlobe], 'click');
   setEvents(camera, [baseGlobe], 'mousemove');
+
+  var rotate = true
   function animate() {
     //get clouds to rotate
     clouds.rotation.z += -0.0007
     requestAnimationFrame(animate);
-    // baseMap.rotation.x += 0.1
-    // add control panel for rotation, toggle rotation
-    $('#stopRotation').click(function(){
-          rotate = !rotate
-    });
-  // toggle button
+
     if (rotate) {
       root.rotation.y += 0.002
       $('#stopRotation').html("STOP ROTATION")
     } else {
       $('#stopRotation').html("START ROTATION")
     }
+    // baseMap.rotation.x += 0.1
+    // add control panel for rotation, toggle rotation
+    $('#stopRotation').click(function(){
+          rotate = !rotate
+    });
+  // toggle button
 
     renderer.render(scene, camera);
   }
 
   animate();
-});
 
-var rotate = true
+})
 
 

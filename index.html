@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="PiApp">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>PIECE OF PI</title>
-  <link rel="stylesheet" href="css/main.css
-  ">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/countryController.js"></script>
+
 </head>
-<body>
+<body ng-controller="CountryController as country">
 <!-- Left side news -->
 <div id = "paperNews">
-  <div id = "msg">COUNTRY</div>
+  <div id = "countryName"></div>
+  <div id = "countryImg"></div>
+  <!-- <div>{{country.name}}</div> -->
   <!-- <input type=text placeholder="Search By Country"></input> -->
 </div>
 
 <!-- control panel and Youtube -->
 <div id = "rightSide">
   <div id = "TV">
-    <iframe src="https://www.youtube.com/watch?v=ubJz2Ma_IEU" width="425" height="349" framborder="0"allowfullscreen class="youtube-player" type="text/html"></iframe>
+    <iframe src="https://www.youtube.com/watch?v=ubJz2Ma_IEU" width="400" height="349" framborder="0"allowfullscreen class="youtube-player" type="text/html"></iframe>
   </div>
 
   <div id = "controlPanel">
@@ -43,9 +48,12 @@
   <!-- D3 Library -->
 
   <!-- JS to globe -->
+  <!-- ES6 uses modules to modularize -->
     <script>
       System.config({
+        // root
         baseURL: '/',
+        // mapping packages these variables so you can use them in other file
         map: {
           d3: 'node_modules/d3/d3',
           THREE: 'node_modules/three/three',
@@ -55,6 +63,7 @@
         },
         transpiler: 'babel'
       });
+      // must tell your docs you want to export/import items into this main.js otherwise throw error 'unexpected token'
       System.import('js/main');
   </script>
 </body>

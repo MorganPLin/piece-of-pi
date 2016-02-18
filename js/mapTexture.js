@@ -23,8 +23,9 @@ export function mapTexture(geojson, color) {
   context.strokeStyle = "#333";
   context.lineWidth = 0.5;
   //light grey fill
-  context.fillStyle = "#CDB380";
-  // context.fillStyle = color || "#CDB380";
+  // context.fillStyle = "#CDB380";
+  //set 2 colors, one for overlay (main.js) and one for baseMap
+  context.fillStyle = color || "#CDB380";
 
   context.beginPath();
 

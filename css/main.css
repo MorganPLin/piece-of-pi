@@ -4,20 +4,34 @@ body {
   background-size: cover;
 }
 
-/*display country news*/
-#msg {
-  color: red;
-  border: 1px solid red;
+#paperNews {
   width: 25%;
-  height: 90%;
-  font-size: 30px;
+  height: 40%;
+  /*border: 1px solid red;*/
   position: absolute;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 5px;
-  margin-left: 5%;
-  margin-top: 5%;
+  background-image: url('../assets/newspaper.png');
+  background-size: cover;
+  margin-left: 3%;
+  margin-top: 10%;
 }
+/*display country news*/
+#countryName {
+  color: black;
+  text-align: center;
+  font-size: 1em;
+  position: absolute;
+/*  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 5px;*/
+  margin-top: 5%;
+  height: 10%;
+  width: 100%;
+}
+
+/*#countryImg {
+  border: 1px solid blue;
+  height: ;
+}*/
 
 #controlPanel {
   position: absolute;
@@ -36,8 +50,8 @@ input {
 iframe{
   margin: 0 auto;
   top: 10%;
-  left: 5%;
-  height: 80%;
+  left: 10%;
+  height: 70%;
   width: 80%;
 }
 
@@ -45,18 +59,21 @@ iframe{
  /* border: 1px solid white;*/
   position: absolute;
   margin-top: 5%;
-  right: 4%;
+  right: 3%;
   height: 85%;
-  width: 27%;
+  width: 30%;
 }
 
 #TV {
-  border: 1px solid white;
+/*  border: 1px solid white;*/
   position: relative;
   margin: 0 auto;
   margin-top: 5%;
-  height: 35%;
-  width: 80%;
+  height: 33%;
+  width: 100%;
+  background-image: url('../assets/tv.png');
+  background-size: cover;
+  border-radius: 3px;
 }
 
 #controlPanel {
