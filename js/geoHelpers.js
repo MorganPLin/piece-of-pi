@@ -21,6 +21,7 @@ export function selectPoint(event) {
 export function getEventCenter(event, radius) {
 // variable radius
   radius = radius || 200;
+
 // recall that the .call operation takes the (context, arg1, arg2)
   var point = selectPoint.call(this, event);
 

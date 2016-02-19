@@ -2,7 +2,7 @@ import { scene, camera, renderer } from './scene';
 import { setEvents } from './setEvents';
 import { convertToXYZ, getEventCenter, geodecoder } from './geoHelpers';
 import { mapTexture } from './mapTexture';
-import { getTween, memoize } from './utils';
+import { memoize } from './utils';
 
 // grabbed from ES6 modules
 import topojson from 'topojson';
@@ -16,13 +16,7 @@ light.position.set(0, 1000, 0);
 // scene.add(light);
 
 d3.json('data/world.json', function (err, data) {
-  // function getApi() {
-  //   $.get('http://pokeapi.co/api/v1/pokedex/1/')
-  //   .then(function(data){
-  //     console.log(data)
-  //   })
-  // }
-  // getApi();
+
 
   // d3.select("#loading").transition().duration(500)
   //   .style("opacity", 0).remove();
@@ -98,6 +92,7 @@ d3.json('data/world.json', function (err, data) {
 
     // Get point of your click, convert to latitude/longitude
     var latlng = getEventCenter.call(this, event);
+
     // Get new camera position
     var temp = new THREE.Mesh();
     temp.position.copy(convertToXYZ(latlng, 900));
@@ -112,15 +107,16 @@ d3.json('data/world.json', function (err, data) {
         temp.rotation[key] += Math.PI * 2;
       }
     }
+   // // push data into an array of saved countries
+   //  var tweenPos = getTween.call(camera, 'position', temp.position);
+   //  d3.timer(tweenPos);
 
-    var tweenPos = getTween.call(camera, 'position', temp.position);
-    d3.timer(tweenPos);
-
-    var tweenRot = getTween.call(camera, 'rotation', temp.rotation);
-    d3.timer(tweenRot);
+   //  var tweenRot = getTween.call(camera, 'rotation', temp.rotation);
+   //  d3.timer(tweenRot);
 
   }
-//hover function calls the overlay
+
+  //hover function calls the overlay
   function onGlobeMousemove(event) {
     var map, material;
 
@@ -134,10 +130,22 @@ d3.json('data/world.json', function (err, data) {
     // get the http request
 
       // Track the current country displayed
-      currentCountry = country.code;
-
+      // country.code = country name
+     var currentCountry = country.code;
+      // var currentCountry = country.code
+    // console.log(currentCountry.toUpperCase())
       // Update the html
       d3.select("#countryName").html(country.code);
+
+// Key for NY Times article search: d0a67f8cd2d91129216492557155f0ce:5:74452603
+      function getNews() {
+           console.log(currentCountry.toUpperCase())
+        $.get('http://api.nytimes.com/svc/search/v2/articlesearch.json?[q=new+york+times&fq=glocations:("'+ currentCountry.toUpperCase() +'")&api-key=d0a67f8cd2d91129216492557155f0ce:5:74452603')
+        .then(function(data){
+          // console.log(currentCountry.toUpperCase())
+          d3.select("#countryNews").html(JSON.stringify(data.response.docs));
+        })
+      }
 
        // Overlay the selected country with yellow color
       map = textureCache(country.code, '#CDC290');
@@ -151,12 +159,15 @@ d3.json('data/world.json', function (err, data) {
         countryProjection.material = material;
       }
     }
+
+
+
   }
 
   setEvents(camera, [baseGlobe], 'click');
   setEvents(camera, [baseGlobe], 'mousemove');
 
-  var rotate = true
+  var rotate = false
   function animate() {
     //get clouds to rotate
     clouds.rotation.z += -0.0007
@@ -164,9 +175,9 @@ d3.json('data/world.json', function (err, data) {
 
     if (rotate) {
       root.rotation.y += 0.002
-      $('#stopRotation').html("STOP ROTATION")
+      $('#stopRotation').css('background-image','url(../assets/radio-button-pause.png)');
     } else {
-      $('#stopRotation').html("START ROTATION")
+      $('#stopRotation').css('background-image','url(../assets/radio-button-play.png)');
     }
     // baseMap.rotation.x += 0.1
     // add control panel for rotation, toggle rotation
