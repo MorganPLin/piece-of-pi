@@ -115,11 +115,16 @@ d3.json('data/world.json', function (err, data) {
       function getNews() {
         var selectCountry = currentCountry.toUpperCase()
 
-           console.log(currentCountry.toUpperCase())
+           // console.log(currentCountry.toUpperCase())
         $.get('http://api.nytimes.com/svc/search/v2/articlesearch.json?[q=new+york+times&fq=glocations:("'+selectCountry+'")&api-key=d0a67f8cd2d91129216492557155f0ce:5:74452603')
         .then(function(data){
-          // console.log(currentCountry.toUpperCase())
-          d3.select("#countryNews").html(JSON.stringify(data.response.docs));
+          console.log(JSON.stringify(data.response.docs[0]))
+          d3.select("#countryNews").html(JSON.stringify(data.response.docs[0].headline.main));
+          var imageUrl = 'http://static01.nyt.com/' + JSON.stringify(data.response.docs[0].multimedia[1].url).replace('"','').replace('"','');
+          console.log(imageUrl.toString())
+
+          d3.select('#countryImg').style('background-image','url(' + imageUrl + ')');
+
         })
       }
       getNews();

@@ -31,22 +31,53 @@ body {
 
 #countryNews {
   position: relative;
-  top: 40%;
-  left: 16%;
+  top: 80%;
+  left: 18%;
   width: 69%;
-  height: 50%;
-  border: 1px solid red;
-  color: red;
+  height: 45%;
+  /*border: 1px solid red;*/
+  color: black;
+  text-align: center;
 }
 
+#defaultNews {
+  width: 40%;
+  margin-top: 25%;
+  margin-left: -20%;
+  position: absolute;
+}
 /*#countryImg {
   border: 1px solid blue;
   height: ;
 }*/
 
+#countryImg {
+  height: 45%;
+  width: 70%;
+  position: absolute;
+  margin: 0 auto;
+  top: 33%;
+  left: 19%;
+/*  background-image: url('http://www.rsmh.se/wp-content/uploads/2015/03/glass.png');
+*/  background-size: cover;
+}
 
 input {
   top: 30px;
+}
+
+#leftSide {
+  width: 50%;
+}
+
+
+#timeMachine {
+  height: 13%;
+  width: 83%;
+  position: absolute;
+  top: 120%;
+  left: 10%;
+  border-radius: 8px;
 }
 
 #stopRotation {
@@ -106,15 +137,15 @@ iframe{
                0 0 0.8em #000,
                0 0 1.0em #000,
                0 0 1.2em #000;*/
-  height: 20%;
+  height: 18%;
   width: 90%;
   left: 5%;
-  margin-top: -46%;
+  margin-top: -40%;
   display: flex;
   top: 200px;
   background-image: url('../assets/control-panel.png');
   background-size: cover;
-  border-radius: 3px;
+  border-radius: 10px;
   font-family: 'Play', sans-serif;
   display: flex;
 }
