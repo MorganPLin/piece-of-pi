@@ -45,7 +45,7 @@ d3.json('data/world.json', function (err, data) {
   //SphereGeometry takes on three arguments-(radius, height, width)
   // number of vertices (2nd and 3rd arguments) Higher = better mouse accuracy
   //base sphere
-  let sphere = new THREE.SphereGeometry(160, 200, 200);
+  let sphere = new THREE.SphereGeometry(130, 200, 200);
 
   let baseGlobe = new THREE.Mesh(sphere, blueMaterial);
 
@@ -54,9 +54,8 @@ d3.json('data/world.json', function (err, data) {
   baseGlobe.rotation.y = Math.PI;
   baseGlobe.addEventListener('click', onGlobeClick);
   baseGlobe.addEventListener('mousemove', onGlobeMousemove);
-  baseGlobe.addEventListener('mousemove', onMouseMove, false);
-  baseGlobe.addEventListener('mouseup', onMouseUp, false);
-  baseGlobe.addEventListener('mouseout', onMouseOut, false);
+  // baseGlobe.addEventListener('mouseup', onMouseUp);
+  // baseGlobe.addEventListener('mouseout', onMouseOut);
 
   // add base map layer with all countries
   let worldTexture = mapTexture(countries, '#647089');
@@ -65,7 +64,7 @@ d3.json('data/world.json', function (err, data) {
   //make sure sphere size is same as previous sphere, borrow measurments from above
   var baseMap = new THREE.Mesh(sphere, mapMaterial);
   var clouds = new THREE.Mesh(
-    new THREE.SphereGeometry(161, 200, 200),
+    new THREE.SphereGeometry(134, 200, 200),
     new THREE.MeshPhongMaterial({
       map: THREE.ImageUtils.loadTexture('../assets/clouds.png'),
       transparent: true,
@@ -126,67 +125,66 @@ d3.json('data/world.json', function (err, data) {
       getNews();
     }
   }
-var mouseOnDown = {x:0,y:0};
-var mouse = {x: 0, y: 0};
-var distance = 100, distanceTarget = 100;
-var target = {
-        x: Math.PI * 3 / 2,
-        y: Math.PI / 6.0
-    },
-    targetOnDown = {
-        x: 0,
-        y: 0
-    };
-var PI_HALF = Math.PI / 2;
-function onMouseDown(event) {
+// var mouseOnDown = {x:0,y:0};
+// var mouse = {x: 0, y: 0};
+// var distance = 100, distanceTarget = 100;
+// var target = {
+//         x: Math.PI * 3 / 2,
+//         y: Math.PI / 6.0
+//     },
+//     targetOnDown = {
+//         x: 0,
+//         y: 0
+//     };
+// var PI_HALF = Math.PI / 2;
+// function onMouseDown(event) {
 
-    var el = document.querySelectorAll('.hide');
-    for (var j = 0; j < el.length; j++) {
-        el[j].style.opacity = 0;
-        el[j].style.pointerEvents = 'none';
-    }
-    event.preventDefault();
+//     var el = document.querySelectorAll('.hide');
+//     for (var j = 0; j < el.length; j++) {
+//         el[j].style.opacity = 0;
+//         el[j].style.pointerEvents = 'none';
+//     }
+//     event.preventDefault();
 
-    mouseOnDown.x = -event.clientX;
-    mouseOnDown.y = event.clientY;
+//     mouseOnDown.x = -event.clientX;
+//     mouseOnDown.y = event.clientY;
 
-    targetOnDown.x = target.x;
-    targetOnDown.y = target.y;
+//     targetOnDown.x = target.x;
+//     targetOnDown.y = target.y;
 
-    baseGlobe.style.cursor = 'move';
-}
+//     baseGlobe.style.cursor = 'move';
+// }
 
 
-function onMouseMove(event) {
-    mouse.x = -event.clientX;
-    mouse.y = event.clientY;
+// function onMouseMove(event) {
+//     mouse.x = -event.clientX;
+//     mouse.y = event.clientY;
 
-    var zoomDamp = distance / 1000;
+//     var zoomDamp = distance / 1000;
 
-    target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005 * zoomDamp;
-    target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005 * zoomDamp;
+//     target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005 * zoomDamp;
+//     target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005 * zoomDamp;
 
-    target.y = target.y > PI_HALF ? PI_HALF : target.y;
-    target.y = target.y < -PI_HALF ? -PI_HALF : target.y;
-}
+//     target.y = target.y > PI_HALF ? PI_HALF : target.y;
+//     target.y = target.y < -PI_HALF ? -PI_HALF : target.y;
+// }
 
-function onMouseUp(event) {
-    var el = document.querySelectorAll('.hide');
-    for (var j = 0; j < el.length; j++) {
-        el[j].style.opacity = 1;
-        el[j].style.pointerEvents = 'auto';
-    }
-    baseGlobe.removeEventListener('mousemove', onMouseMove, false);
-    baseGlobe.removeEventListener('mouseup', onMouseUp, false);
-    baseGlobe.removeEventListener('mouseout', onMouseOut, false);
-    baseGlobe.style.cursor = 'auto';
-}
+// function onMouseUp(event) {
+//     var el = document.querySelectorAll('.hide');
+//     for (var j = 0; j < el.length; j++) {
+//         el[j].style.opacity = 1;
+//         el[j].style.pointerEvents = 'auto';
+//     }
+//     baseGlobe.removeEventListener('mousemove', onMouseMove, false);
+//     baseGlobe.removeEventListener('mouseup', onMouseUp, false);
+//     baseGlobe.removeEventListener('mouseout', onMouseOut, false);
+// }
 
-function onMouseOut(event) {
-    container.removeEventListener('mousemove', onMouseMove, false);
-    container.removeEventListener('mouseup', onMouseUp, false);
-    container.removeEventListener('mouseout', onMouseOut, false);
-}
+// function onMouseOut(event) {
+//     baseGlobe.removeEventListener('mousemove', onMouseMove, false);
+//     baseGlobe.removeEventListener('mouseup', onMouseUp, false);
+//     baseGlobe.removeEventListener('mouseout', onMouseOut, false);
+// }
 
   //hover function calls the overlay
   function onGlobeMousemove(event) {
@@ -219,7 +217,7 @@ function onMouseOut(event) {
       material = new THREE.MeshPhongMaterial({map: map, transparent: true});
       if (!countryProjection) {
         // push the country above the atmosphere
-        countryProjection = new THREE.Mesh(new THREE.SphereGeometry(201, 40, 40), material);
+        countryProjection = new THREE.Mesh(new THREE.SphereGeometry(180, 40, 40), material);
         countryProjection.rotation.y = Math.PI;
         root.add(countryProjection);
       } else {
@@ -231,30 +229,47 @@ function onMouseOut(event) {
 
   setEvents(camera, [baseGlobe], 'click');
   setEvents(camera, [baseGlobe], 'mousemove');
+  setEvents(camera, [baseGlobe], 'mouseup');
+  setEvents(camera, [baseGlobe], 'mouseout');
 
   var rotate = false
   function animate() {
-    //get clouds to rotate
-    clouds.rotation.z += -0.0007
     requestAnimationFrame(animate);
+    //get clouds to rotate
+    var speed;
 
+    d3.select('#slide').on("input", function() {
+         speed = (+this.value/1000)
+         var speedString = speed.toString()
+         d3.select('h3').html(speedString)
+         root.rotation.y = speed
+
+     });
+
+    clouds.rotation.z += -0.0007
+
+    // function rotate(speed) {
     if (rotate) {
       root.rotation.y += 0.002
       $('#stopRotation').css('background-image','url(../assets/radio-button-pause.png)');
     } else {
       $('#stopRotation').css('background-image','url(../assets/radio-button-play.png)');
     }
+   // }
+   // rotate(rotationSpeed)
     // baseMap.rotation.x += 0.1
     // add control panel for rotation, toggle rotation
-    $('#stopRotation').click(function(){
+
+     $('#stopRotation').click(function(){
           rotate = !rotate
-    });
-  // toggle button
+      });
+
     renderer.render(scene, camera);
+  // toggle button
   }
 
   animate();
 
-})
+});
 
 

@@ -50,15 +50,16 @@ input {
 }
 
 #stopRotation {
+  position: relative;
   height: 40%;
   width: 30%;
   background-image: url("../assets/radio-button-play.png");
   background-size: cover;
   top: 24%;
-  position: relative;
   left: 7%;
   border-radius: 9px;
 }
+
 
 iframe{
   margin: 0 auto;
@@ -108,11 +109,62 @@ iframe{
   height: 20%;
   width: 90%;
   left: 5%;
-  color: red;
   margin-top: -46%;
   display: flex;
   top: 200px;
   background-image: url('../assets/control-panel.png');
   background-size: cover;
   border-radius: 3px;
+  font-family: 'Play', sans-serif;
+  display: flex;
 }
+
+#hoverCountry {
+  height: 5%;
+  width: 10%;
+  color: black;
+  position: relative;
+  left: 30%;
+  top: 5%;
+  font-family: 'Black Ops One', cursive;;
+}
+
+#lat-label, #long-label {
+  height: 4%;
+  width: 10%;
+  position: relative;
+  color: black;
+  top: 50%;
+  left: 10%;
+}
+
+#lat-display, #long-display {
+  color: red;
+  background-color: black;
+  width: 15%;
+  height: 20%;
+  color: red;
+  border-radius: 5px;
+  text-align: right;
+  top: 25%;
+  position: relative;
+  padding-right: 1%;
+  padding-top: 1%;
+}
+
+#logo {
+  background-image: url('../assets/pop-news-logo.png');
+  background-size: cover;
+  height: 30%;
+  width: 70%;
+  position: relative;
+  top: 37%;
+  margin: 0 auto;
+}
+
+#controlSpeed {
+  position: absolute;
+  top: 70%;
+  right: 9%;
+}
+
