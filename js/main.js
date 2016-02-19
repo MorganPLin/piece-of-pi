@@ -54,6 +54,9 @@ d3.json('data/world.json', function (err, data) {
   baseGlobe.rotation.y = Math.PI;
   baseGlobe.addEventListener('click', onGlobeClick);
   baseGlobe.addEventListener('mousemove', onGlobeMousemove);
+  baseGlobe.addEventListener('mousemove', onMouseMove, false);
+  baseGlobe.addEventListener('mouseup', onMouseUp, false);
+  baseGlobe.addEventListener('mouseout', onMouseOut, false);
 
   // add base map layer with all countries
   let worldTexture = mapTexture(countries, '#647089');
@@ -123,6 +126,67 @@ d3.json('data/world.json', function (err, data) {
       getNews();
     }
   }
+var mouseOnDown = {x:0,y:0};
+var mouse = {x: 0, y: 0};
+var distance = 100, distanceTarget = 100;
+var target = {
+        x: Math.PI * 3 / 2,
+        y: Math.PI / 6.0
+    },
+    targetOnDown = {
+        x: 0,
+        y: 0
+    };
+var PI_HALF = Math.PI / 2;
+function onMouseDown(event) {
+
+    var el = document.querySelectorAll('.hide');
+    for (var j = 0; j < el.length; j++) {
+        el[j].style.opacity = 0;
+        el[j].style.pointerEvents = 'none';
+    }
+    event.preventDefault();
+
+    mouseOnDown.x = -event.clientX;
+    mouseOnDown.y = event.clientY;
+
+    targetOnDown.x = target.x;
+    targetOnDown.y = target.y;
+
+    baseGlobe.style.cursor = 'move';
+}
+
+
+function onMouseMove(event) {
+    mouse.x = -event.clientX;
+    mouse.y = event.clientY;
+
+    var zoomDamp = distance / 1000;
+
+    target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005 * zoomDamp;
+    target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005 * zoomDamp;
+
+    target.y = target.y > PI_HALF ? PI_HALF : target.y;
+    target.y = target.y < -PI_HALF ? -PI_HALF : target.y;
+}
+
+function onMouseUp(event) {
+    var el = document.querySelectorAll('.hide');
+    for (var j = 0; j < el.length; j++) {
+        el[j].style.opacity = 1;
+        el[j].style.pointerEvents = 'auto';
+    }
+    baseGlobe.removeEventListener('mousemove', onMouseMove, false);
+    baseGlobe.removeEventListener('mouseup', onMouseUp, false);
+    baseGlobe.removeEventListener('mouseout', onMouseOut, false);
+    baseGlobe.style.cursor = 'auto';
+}
+
+function onMouseOut(event) {
+    container.removeEventListener('mousemove', onMouseMove, false);
+    container.removeEventListener('mouseup', onMouseUp, false);
+    container.removeEventListener('mouseout', onMouseOut, false);
+}
 
   //hover function calls the overlay
   function onGlobeMousemove(event) {
@@ -144,8 +208,8 @@ d3.json('data/world.json', function (err, data) {
     // console.log(currentCountry.toUpperCase())
       // Update the html of the control panel:
       d3.select("#hoverCountry").html(country.code);
-      var latitude = latlng[0].toString().split('')
-      var longitude = latlng[0].toString().split('')
+      var latitude = latlng[0].toString().split('').splice(0,5).join('')
+      var longitude = latlng[0].toString().split('').splice(0,5).join('')
       d3.select("#lat-display").html(latitude);
       d3.select("#long-display").html(longitude);
 
@@ -162,8 +226,6 @@ d3.json('data/world.json', function (err, data) {
         countryProjection.material = material;
       }
     }
-
-
 
   }
 

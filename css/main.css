@@ -44,20 +44,20 @@ body {
   height: ;
 }*/
 
-#controlPanel {
-  position: absolute;
-  top: 200px;
-}
 
 input {
   top: 30px;
 }
 
 #stopRotation {
-  height: 70px;
-  width: 70px;
+  height: 40%;
+  width: 30%;
   background-image: url("../assets/radio-button-play.png");
   background-size: cover;
+  top: 24%;
+  position: relative;
+  left: 7%;
+  border-radius: 9px;
 }
 
 iframe{
@@ -97,17 +97,22 @@ iframe{
 #controlPanel {
   position: relative;
   margin: 0 auto;
-  border: 3px solid rgba(255,255,255,0.2);
+/*  border: 3px solid rgba(255,255,255,0.2);
   box-shadow: 0 0 0.1em rgba(255,255,255,0.2),
                0 0 0.2em rgba(255,255,255,0.2),
                0 0 0.4em rgba(255,255,255,0.4),
                0 0 0.6em #000,
                0 0 0.8em #000,
                0 0 1.0em #000,
-               0 0 1.2em #000;
-  height: 25%;
-  width: 80%;
-  color: blue;
+               0 0 1.2em #000;*/
+  height: 20%;
+  width: 90%;
+  left: 5%;
+  color: red;
   margin-top: -46%;
   display: flex;
+  top: 200px;
+  background-image: url('../assets/control-panel.png');
+  background-size: cover;
+  border-radius: 3px;
 }
