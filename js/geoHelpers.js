@@ -1,5 +1,6 @@
 //export functions with returns into main.js, be sure to import
 
+// click
 export function selectPoint(event) {
   // at this point, the position of your mouse movement over 3 points is equal to a 3 vectors in the vector form (x,y,z)
   // set a, b & c equal to this "movement"
@@ -16,7 +17,6 @@ export function selectPoint(event) {
   return point;
 }
 
-//this function resets the center of the map to the clicked country
 //it also returns latitude and longitude of your clicked point, converting this vector point to the projected latitude longitude on the map
 export function getEventCenter(event, radius) {
 // variable radius

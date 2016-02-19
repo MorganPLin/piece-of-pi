@@ -3,8 +3,7 @@ import { setEvents } from './setEvents';
 import { convertToXYZ, getEventCenter, geodecoder } from './geoHelpers';
 import { mapTexture } from './mapTexture';
 import { memoize } from './utils';
-
-// grabbed from ES6 modules
+// grabbed from ES6 modules defined in index.html
 import topojson from 'topojson';
 import THREE from 'THREE';
 import d3 from 'd3';
@@ -88,32 +87,41 @@ d3.json('data/world.json', function (err, data) {
   scene.add(light)
 
 // click to reorient, need to fix tweenPosition and tweenRotate, which rotates the globe to recenter on your mouse click
+
   function onGlobeClick(event) {
 
     // Get point of your click, convert to latitude/longitude
     var latlng = getEventCenter.call(this, event);
 
-    // Get new camera position
+    // Get new camera position ie render a new shape
     var temp = new THREE.Mesh();
+
+    console.log(latlng)
+    // recenter that to be on the country
     temp.position.copy(convertToXYZ(latlng, 900));
     temp.lookAt(root.position);
 
-    temp.rotateY(Math.PI);
-    $('')
-    for (let key in temp.rotation) {
-      if (temp.rotation[key] - camera.rotation[key] > Math.PI) {
-        temp.rotation[key] -= Math.PI * 2;
-      } else if (camera.rotation[key] - temp.rotation[key] > Math.PI) {
-        temp.rotation[key] += Math.PI * 2;
+    // temp.rotateY(Math.PI);
+    // update control panel with lat and longitude of hover
+     var country = geo.search(latlng[0], latlng[1]);
+      if (country !== null && country.code !== currentCountry) {
+
+      var currentCountry = country.code;
+      // change the news
+      d3.select("#countryName").html(country.code);
+      // Key for NY Times article search: d0a67f8cd2d91129216492557155f0ce:5:74452603
+      function getNews() {
+        var selectCountry = currentCountry.toUpperCase()
+
+           console.log(currentCountry.toUpperCase())
+        $.get('http://api.nytimes.com/svc/search/v2/articlesearch.json?[q=new+york+times&fq=glocations:("'+selectCountry+'")&api-key=d0a67f8cd2d91129216492557155f0ce:5:74452603')
+        .then(function(data){
+          // console.log(currentCountry.toUpperCase())
+          d3.select("#countryNews").html(JSON.stringify(data.response.docs));
+        })
       }
+      getNews();
     }
-   // // push data into an array of saved countries
-   //  var tweenPos = getTween.call(camera, 'position', temp.position);
-   //  d3.timer(tweenPos);
-
-   //  var tweenRot = getTween.call(camera, 'rotation', temp.rotation);
-   //  d3.timer(tweenRot);
-
   }
 
   //hover function calls the overlay
@@ -134,21 +142,16 @@ d3.json('data/world.json', function (err, data) {
      var currentCountry = country.code;
       // var currentCountry = country.code
     // console.log(currentCountry.toUpperCase())
-      // Update the html
-      d3.select("#countryName").html(country.code);
-
-// Key for NY Times article search: d0a67f8cd2d91129216492557155f0ce:5:74452603
-      function getNews() {
-           console.log(currentCountry.toUpperCase())
-        $.get('http://api.nytimes.com/svc/search/v2/articlesearch.json?[q=new+york+times&fq=glocations:("'+ currentCountry.toUpperCase() +'")&api-key=d0a67f8cd2d91129216492557155f0ce:5:74452603')
-        .then(function(data){
-          // console.log(currentCountry.toUpperCase())
-          d3.select("#countryNews").html(JSON.stringify(data.response.docs));
-        })
-      }
+      // Update the html of the control panel:
+      d3.select("#hoverCountry").html(country.code);
+      var latitude = latlng[0].toString().split('')
+      var longitude = latlng[0].toString().split('')
+      d3.select("#lat-display").html(latitude);
+      d3.select("#long-display").html(longitude);
 
        // Overlay the selected country with yellow color
       map = textureCache(country.code, '#CDC290');
+      // must allow transparent to see globe underneath
       material = new THREE.MeshPhongMaterial({map: map, transparent: true});
       if (!countryProjection) {
         // push the country above the atmosphere
@@ -185,7 +188,6 @@ d3.json('data/world.json', function (err, data) {
           rotate = !rotate
     });
   // toggle button
-
     renderer.render(scene, camera);
   }
 

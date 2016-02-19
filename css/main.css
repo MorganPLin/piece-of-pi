@@ -31,11 +31,12 @@ body {
 
 #countryNews {
   position: relative;
-  top: 52%;
+  top: 40%;
   left: 16%;
   width: 69%;
   height: 50%;
   border: 1px solid red;
+  color: red;
 }
 
 /*#countryImg {
@@ -61,12 +62,17 @@ input {
 
 iframe{
   margin: 0 auto;
-  top: 10%;
-  left: 10%;
-  height: 70%;
-  width: 80%;
+  top: 17%;
+  left: 19%;
+  height: 65%;
+  width: 52%;
+  position: relative;
+  border: 0 none;
 }
 
+.video {
+  position: absolute;
+}
 #rightSide {
  /* border: 1px solid white;*/
   position: absolute;
@@ -81,7 +87,7 @@ iframe{
   position: relative;
   margin: 0 auto;
   margin-top: 5%;
-  height: 33%;
+  height: 35%;
   width: 100%;
   background-image: url('../assets/tv.png');
   background-size: cover;
